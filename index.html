@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt Hàng Trực Tuyến</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1><i class="fas fa-utensils"></i> Quán Trà & Đồ Ăn Vặt</h1>
+            <p>Đặt hàng nhanh chóng và tiện lợi</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 400px; gap: 2rem; align-items: start;">
+            <!-- Menu Section -->
+            <div>
+                <h2 style="color: #2c3e50; margin-bottom: 1.5rem;">
+                    <i class="fas fa-list"></i> Thực Đơn
+                </h2>
+                <div class="menu-grid">
+                    <!-- Trà đá -->
+                    <div class="menu-item" onclick="openCustomizationModal('tra-da')">
+                        <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Trà đá">
+                        <div class="menu-item-content">
+                            <h3>Trà Đá</h3>
+                            <p class="price">15,000 VNĐ</p>
+                        </div>
+                    </div>
+
+                    <!-- Bim Bim -->
+                    <div class="menu-item" onclick="openCustomizationModal('bim-bim')">
+                        <img src="https://images.unsplash.com/photo-1621447504864-d8686e12698c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Bim Bim">
+                        <div class="menu-item-content">
+                            <h3>Bim Bim</h3>
+                            <p class="price">20,000 VNĐ</p>
+                        </div>
+                    </div>
+
+                    <!-- Trà chanh -->
+                    <div class="menu-item" onclick="openCustomizationModal('tra-chanh')">
+                        <img src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Trà chanh">
+                        <div class="menu-item-content">
+                            <h3>Trà Chanh</h3>
+                            <p class="price">25,000 VNĐ</p>
+                        </div>
+                    </div>
+
+                    <!-- Trà quất -->
+                    <div class="menu-item" onclick="openCustomizationModal('tra-quat')">
+                        <img src="https://images.unsplash.com/photo-1570197788417-0e82375c9371?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Trà quất">
+                        <div class="menu-item-content">
+                            <h3>Trà Quất</h3>
+                            <p class="price">30,000 VNĐ</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cart Section -->
+            <div class="cart-section">
+                <h2><i class="fas fa-shopping-cart"></i> Giỏ Hàng</h2>
+                <div class="cart-items" id="cartItems">
+                    <!-- Cart items will be populated here -->
+                </div>
+                <div class="cart-total">
+                    <i class="fas fa-calculator"></i> Tổng: <span id="cartTotal">0 VNĐ</span>
+                </div>
+                <button class="btn-order" id="orderBtn" onclick="placeOrder()">
+                    <i class="fas fa-paper-plane"></i> Đặt Hàng
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customization Modal -->
+    <div id="customizationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Tùy Chỉnh Món</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            
+            <div class="modal-body">
+                <!-- Sugar percentage (only for tea drinks) -->
+                <div class="option-group" id="sugarOptions" style="display: none;">
+                    <label><i class="fas fa-cube"></i> Độ Ngọt:</label>
+                    <div class="percentage-options">
+                        <button class="percentage-btn" data-value="0">0%</button>
+                        <button class="percentage-btn" data-value="25">25%</button>
+                        <button class="percentage-btn active" data-value="50">50%</button>
+                        <button class="percentage-btn" data-value="75">75%</button>
+                        <button class="percentage-btn" data-value="100">100%</button>
+                    </div>
+                </div>
+
+                <!-- Ice percentage (only for tea drinks) -->
+                <div class="option-group" id="iceOptions" style="display: none;">
+                    <label><i class="fas fa-snowflake"></i> Lượng Đá:</label>
+                    <div class="percentage-options">
+                        <button class="percentage-btn" data-value="0">0%</button>
+                        <button class="percentage-btn" data-value="25">25%</button>
+                        <button class="percentage-btn active" data-value="50">50%</button>
+                        <button class="percentage-btn" data-value="75">75%</button>
+                        <button class="percentage-btn" data-value="100">100%</button>
+                    </div>
+                </div>
+
+                <!-- Topping options (only for tea drinks) -->
+                <div class="option-group" id="toppingOptions" style="display: none;">
+                    <label><i class="fas fa-plus-circle"></i> Topping:</label>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="aloeTopping">
+                        <label for="aloeTopping">Nha đam (+5,000 VNĐ)</label>
+                    </div>
+                </div>
+
+                <!-- Quantity -->
+                <div class="option-group">
+                    <label><i class="fas fa-sort-numeric-up"></i> Số Lượng:</label>
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
+                        <span class="quantity-display" id="quantityDisplay">1</span>
+                        <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
+                    </div>
+                </div>
+
+                <button class="btn-add-to-cart" onclick="addToCart()">
+                    <i class="fas fa-plus"></i> Thêm Vào Giỏ Hàng
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="script.js"></script>
+    
+    <script>
+        // Register service worker for FCM
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/firebase-messaging-sw.js')
+                .then(registration => {
+                    console.log('Service Worker registered:', registration);
+                })
+                .catch(error => {
+                    console.log('Service Worker registration failed:', error);
+                });
+        }
+
+        // Initialize FCM when page loads
+        window.addEventListener('load', () => {
+            if (window.setupForegroundMessageHandling) {
+                window.setupForegroundMessageHandling();
+            }
+        });
+    </script>
+</body>
+</html>
